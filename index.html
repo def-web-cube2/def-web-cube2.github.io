@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Сборник оффлайн игр с адаптивным дизайном">
+    <meta name="theme-color" content="#1877f2">
+    <title>Ultra Game Hub | Premium Collection</title>
+    <style>
+        /* 
+         * ==========================================
+         * CORE CSS VARIABLES & THEMING
+         * ==========================================
+         */
+        :root {
+            --bg-body: #f0f2f5;
+            --bg-panel: #ffffff;
+            --bg-input: #f5f6f7;
+            --text-primary: #050505;
+            --text-secondary: #65676b;
+            --text-tertiary: #8a8d91;
+            --primary-color: #1877f2;
+            --primary-hover: #166fe5;
+            --success-color: #42b72a;
+            --danger-color: #fa383e;
+            --warning-color: #f7b928;
+            --border-color: #dddfe2;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: "Courier New", Courier, monospace;
+            --transition-speed: 0.3s;
+            --header-height: 60px;
+            --nav-height: 50px;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #18191a;
+            --bg-panel: #242526;
+            --bg-input: #3a3b3c;
+            --text-primary: #e4e6eb;
+            --text-secondary: #b0b3b8;
+            --text-tertiary: #8a8d91;
+            --primary-color: #4da6ff;
+            --primary-hover: #69b3ff;
+            --success-color: #4cd137;
+            --danger-color: #ff6b6b;
+            --warning-color: #feca57;
+            --border-color: #3e4042;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.7);
+        }
+
+        /* 
+         * ==========================================
+         * RESET & BASE STYLES
+         * ==========================================
+         */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            overflow-x: hidden;
+        }
+
+        /* 
+         * ==========================================
+         * HEADER STYLES
+         * ==========================================
+         */
+        header {
+            background: var(--bg-panel);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle, .menu-toggle {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all var(--transition-speed);
+        }
+
+        .theme-toggle:hover, .menu-toggle:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: rotate(15deg);
+        }
+
+        /* 
+         * ==========================================
+         * NAVIGATION STYLES
+         * ==========================================
+         */
+        nav {
+            background: var(--bg-panel);
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        nav::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        nav::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            white-space: nowrap;
+            transition: all var(--transition-speed);
+            margin-right: 5px;
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-input);
+            color: var(--primary-color);
+        }
+
+        .nav-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* 
+         * ==========================================
+         * MAIN CONTENT AREA
+         * ==========================================
+         */
+        main {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - var(--header-height) - var(--nav-height));
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 
+         * ==========================================
+         * GAME GRID & CARDS
+         * ==========================================
+         */
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: var(--bg-panel);
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .game-card:active {
+            transform: scale(0.98);
+        }
+
+        .game-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .game-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        .game-tag {
+            background: var(--bg-input);
+            padding: 3px 10px;
+            border-radius: var(--radius-sm);
+        }
+
+        /* 
+         * ==========================================
+         * GAME STAGE (PLAY AREA)
+         * ==========================================
+         */
+        .game-stage {
+            background: var(--bg-panel);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stage-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stage-display {
+            background: var(--bg-input);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+        }
+
+        .stage-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        /* 
+         * ==========================================
+         * BUTTON STYLES
+         * ==========================================
+         */
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            opacity: 0.9;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-speed);
+        }
+
+        .btn-back:hover {
+            background: var(--bg-input);
+            color: var(--primary-color);
+        }
+
+        /* 
+         * ==========================================
+         * INPUT STYLES
+         * ==========================================
+         */
+        input, select {
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: var(--font-main);
+            transition: all var(--transition-speed);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2);
+        }
+
+        input[type="number"] {
+            width: 120px;
+            text-align: center;
+        }
+
+        input[type="range"] {
+            width: 200px;
+            height: 6px;
+            -webkit-appearance: none;
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* 
+         * ==========================================
+         * SPECIFIC GAME STYLES
+         * ==========================================
+         */
+        /* Tic Tac Toe */
+        .ttt-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .ttt-cell {
+            aspect-ratio: 1;
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .ttt-cell:hover {
+            background: var(--border-color);
+        }
+
+        .ttt-cell.x { color: var(--primary-color); }
+        .ttt-cell.o { color: var(--danger-color); }
+        .ttt-cell.winner {
+            background: var(--success-color);
+            color: white;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Memory Game */
+        .memory-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .memory-card.flipped {
+            background: var(--bg-panel);
+            border: 2px solid var(--primary-color);
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            background: var(--success-color);
+            cursor: default;
+            animation: matched 0.5s ease;
+        }
+
+        @keyframes matched {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Snake Game */
+        .snake-canvas {
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        /* Clicker Game */
+        .clicker-btn {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .clicker-btn:active {
+            transform: scale(0.95);
+        }
+
+        .upgrade-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--bg-input);
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+        }
+
+        /* 
+         * ==========================================
+         * STATS & LEADERBOARD
+         * ==========================================
+         */
+        .stats-panel {
+            background: var(--bg-panel);
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-input);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* 
+         * ==========================================
+         * NOTIFICATIONS & MODALS
+         * ==========================================
+         */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-panel);
+            padding: 15px 25px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--primary-color);
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            z-index: 2000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success { border-left-color: var(--success-color); }
+        .notification.error { border-left-color: var(--danger-color); }
+        .notification.warning { border-left-color: var(--warning-color); }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-panel);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+
+        /* 
+         * ==========================================
+         * RESPONSIVE DESIGN
+         * ==========================================
+         */
+        /* [Unverified] Медиа-запросы могут по-разному интерпретироваться в старых браузерах */
+        @media (max-width: 1024px) {
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --header-height: 55px;
+                --nav-height: 45px;
+            }
+
+            header {
+                padding: 0 15px;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            nav {
+                padding: 0 15px;
+            }
+
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            main {
+                padding: 15px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .game-stage {
+                padding: 20px;
+            }
+
+            .stage-display {
+                font-size: 2rem;
+                padding: 20px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .ttt-cell {
+                font-size: 2rem;
+            }
+
+            .memory-board {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+            }
+
+            .memory-card {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+
+            header {
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .theme-toggle, .menu-toggle {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            main {
+                padding: 10px;
+            }
+
+            .game-card {
+                padding: 20px;
+            }
+
+            .game-icon {
+                font-size: 2.5rem;
+            }
+
+            .stage-display {
+                font-size: 1.5rem;
+                padding: 15px;
+            }
+
+            .stage-controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .ttt-board {
+                max-width: 280px;
+            }
+
+            .ttt-cell {
+                font-size: 1.8rem;
+            }
+
+            .memory-board {
+                max-width: 320px;
+            }
+
+            .clicker-btn {
+                width: 150px;
+                height: 150px;
+                font-size: 1.2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 
+         * ==========================================
+         * PRINT STYLES
+         * ==========================================
+         */
+        @media print {
+            header, nav, .btn, .stage-controls {
+                display: none;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .game-stage {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+        /* 
+         * ==========================================
+         * ACCESSIBILITY
+         * ==========================================
+         */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header role="banner">
+        <div class="logo">🎮 Ultra Game Hub</div>
+        <div class="header-controls">
+            <span id="score-display" style="font-weight: 600; color: var(--primary-color);">🏆 0</span>
+            <button class="theme-toggle" id="theme-btn" aria-label="Переключить тему" title="Переключить тему">🌙</button>
+        </div>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav role="navigation" aria-label="Основная навигация">
+        <button class="nav-btn active" data-view="home">🏠 Главная</button>
+        <button class="nav-btn" data-view="arcade">🕹️ Аркады</button>
+        <button class="nav-btn" data-view="logic">🧠 Логика</button>
+        <button class="nav-btn" data-view="action">⚡ Экшен</button>
+        <button class="nav-btn" data-view="stats">📊 Статистика</button>
+        <button class="nav-btn" data-view="settings">⚙️ Настройки</button>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main role="main">
+        <!-- HOME VIEW -->
+        <div id="view-home" class="view active">
+            <h2 class="section-title">🔥 Популярные игры</h2>
+            <div class="games-grid">
+                <div class="game-card" data-game="clicker" data-category="arcade">
+                    <span class="game-icon">🖱️</span>
+                    <h3 class="game-title">Кибер Кликер</h3>
+                    <p class="game-desc">Накопи миллион кликов и покупай улучшения!</p>
+                    <div class="game-meta">
+                        <span class="game-tag">Аркада</span>
+                        <span class="game-tag">Оффлайн</span>
+                    </div>
+                </div>
+                <div class="game-card" data-game="guess" data-category="logic">
+                    <span class="game-icon">❓</span>
+                    <h3 class="game-title">Угадай Число</h3>
+                    <p class="game-desc">Взломай код от 1 до 100 за минимальное число попыток</p>
+                    <div class="game-meta">
+                        <span class="game-tag">Логика</span>
+                        <span class="game-tag">Оффлайн</span>
+                    </div>
+                </div>
+                <div class="game-card" data-game="tictactoe" data-category="logic">
+                    <span class="game-icon">⭕</span>
+                    <h3 class="game-title">Крестики-Нолики</h3>
+                    <p class="game-desc">Классическая игра 3x3 против компьютера</p>
+                    <div class="game-meta">
+                        <span class="game-tag">Логика</span>
+                        <span class="game-tag">2 Игрока</span>
+                    </div>
+                </div>
+                <div class="game-card" data-game="memory" data-category="logic">
+                    <span class="game-icon">🧠</span>
+                    <h3 class="game-title">Память</h3>
+                    <p class="game-desc">Найди все пары карточек на время</p>
+                    <div class="game-meta">
+                        <span class="game-tag">Логика</span>
+                        <span class="game-tag">На время</span>
+                    </div>
+                </div>
+                <div class="game-card" data-game="snake" data-category="arcade">
+                    <span class="game-icon">🐍</span>
+                    <h3 class="game-title">Змейка</h3>
+                    <p class="game-desc">Классическая змейка с растущей сложностью</p>
+                    <div class="game-meta">
+                        <span class="game-tag">Аркада</span>
+                        <span class="game-tag">Ретро</span>
+                    </div>
+                </div>
+                <div class="game-card" data-game="reaction" data-category="action">
+                    <span class="game-icon">⚡</span>
+                    <h3 class="game-title">Реакция</h3>
+                    <p class="game-desc">Проверь свою скорость реакции</p>
+                    <div class="game-meta">
+                        <span class="game-tag">Экшен</span>
+                        <span class="game-tag">На время</span>
+                    </div>
+                </div>
+                <div class="game-card" data-game="math" data-category="logic">
+                    <span class="game-icon">🔢</span>
+                    <h3 class="game-title">Математика</h3>
+                    <p class="game-desc">Решай примеры на скорость</p>
+                    <div class="game-meta">
+                        <span class="game-tag">Логика</span>
+                        <span class="game-tag">Образование</span>
+                    </div>
+                </div>
+                <div class="game-card" data-game="whack" data-category="action">
+                    <span class="game-icon">🔨</span>
+                    <h3 class="game-title">Ударь Крота</h3>
+                    <p class="game-desc">Классическая аркада на реакцию</p>
+                    <div class="game-meta">
+                        <span class="game-tag">Экшен</span>
+                        <span class="game-tag">Аркада</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">📈 Ваша статистика</h2>
+            <div class="stats-panel">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-games">0</div>
+                        <div class="stat-label">Сыграно игр</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-score">0</div>
+                        <div class="stat-label">Общий счёт</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="best-streak">0</div>
+                        <div class="stat-label">Лучшая серия</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="play-time">0м</div>
+                        <div class="stat-label">Время в игре</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME STAGE VIEW -->
+        <div id="view-game" class="view">
+            <div class="game-stage">
+                <div class="stage-header">
+                    <button class="btn-back" onclick="app.navigate('home')">
+                        <span>←</span> Назад
+                    </button>
+                    <h2 class="stage-title" id="game-title-display">Название игры</h2>
+                    <div style="width: 80px;"></div>
+                </div>
+                <div id="game-container"></div>
+            </div>
+        </div>
+
+        <!-- ARCADE VIEW -->
+        <div id="view-arcade" class="view">
+            <h2 class="section-title">🕹️ Аркадные игры</h2>
+            <div class="games-grid" id="arcade-grid"></div>
+        </div>
+
+        <!-- LOGIC VIEW -->
+        <div id="view-logic" class="view">
+            <h2 class="section-title">🧠 Логические игры</h2>
+            <div class="games-grid" id="logic-grid"></div>
+        </div>
+
+        <!-- ACTION VIEW -->
+        <div id="view-action" class="view">
+            <h2 class="section-title">⚡ Экшен игры</h2>
+            <div class="games-grid" id="action-grid"></div>
+        </div>
+
+        <!-- STATS VIEW -->
+        <div id="view-stats" class="view">
+            <h2 class="section-title">📊 Подробная статистика</h2>
+            <div class="stats-panel">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-clicker">0</div>
+                        <div class="stat-label">Кликер - рекорд</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-guess">0</div>
+                        <div class="stat-label">Угадай - лучшая попытка</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-snake">0</div>
+                        <div class="stat-label">Змейка - макс. длина</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-memory">0</div>
+                        <div class="stat-label">Память - лучшее время</div>
+                    </div>
+                </div>
+                <button class="btn btn-danger" onclick="app.clearAllData()" style="margin-top: 30px;">
+                    🗑️ Очистить все данные
+                </button>
+            </div>
+        </div>
+
+        <!-- SETTINGS VIEW -->
+        <div id="view-settings" class="view">
+            <h2 class="section-title">⚙️ Настройки</h2>
+            <div class="game-stage">
+                <div class="upgrade-item">
+                    <div>
+                        <h4>Звуковые эффекты</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Включить звуки в играх</p>
+                    </div>
+                    <input type="checkbox" id="sound-toggle" checked>
+                </div>
+                <div class="upgrade-item">
+                    <div>
+                        <h4>Вибрация</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Вибрировать при событиях (телефон)</p>
+                    </div>
+                    <input type="checkbox" id="vibration-toggle" checked>
+                </div>
+                <div class="upgrade-item">
+                    <div>
+                        <h4>Автосохранение</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Сохранять прогресс автоматически</p>
+                    </div>
+                    <input type="checkbox" id="autosave-toggle" checked disabled>
+                </div>
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                    <h4>О приложении</h4>
+                    <p style="color: var(--text-secondary); margin-top: 10px;">
+                        Версия: 1.0.0<br>
+                        -[Unverified] Статус: Оффлайн режим<br>
+                        Разработано с использованием HTML, CSS, JavaScript
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- NOTIFICATION -->
+    <div class="notification" id="notification" role="alert">
+        <span id="notification-text">Сообщение</span>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" role="dialog" aria-modal="true">
+            <h3 class="modal-title" id="modal-title">Заголовок</h3>
+            <p class="modal-body" id="modal-body">Текст сообщения</p>
+            <button class="btn btn-primary" onclick="app.closeModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * ==========================================
+         * CORE APPLICATION LOGIC
+         * ==========================================
+         * -[Unverified] Я не могу проверить производительность этого кода на слабых устройствах
+         */
+        const app = {
+            state: {
+                theme: 'light',
+                currentView: 'home',
+                currentGame: null,
+                totalGames: 0,
+                totalScore: 0,
+                bestStreak: 0,
+                playTime: 0,
+                soundEnabled: true,
+                vibrationEnabled: true,
+                gameStats: {}
+            },
+
+            audioContext: null,
+
+            init() {
+                this.loadSettings();
+                this.setupNavigation();
+                this.setupThemeToggle();
+                this.setupSettings();
+                this.filterGames();
+                this.updateStats();
+                this.startPlayTimer();
+                console.log('Application Initialized');
+            },
+
+            loadSettings() {
+                try {
+                    const saved = localStorage.getItem('ultraGameHub_settings');
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        Object.assign(this.state, parsed);
+                        document.documentElement.setAttribute('data-theme', this.state.theme);
+                        document.getElementById('theme-btn').textContent = this.state.theme === 'dark' ? '☀️' : '🌙';
+                        document.getElementById('sound-toggle').checked = this.state.soundEnabled;
+                        document.getElementById('vibration-toggle').checked = this.state.vibrationEnabled;
+                    }
+                } catch (e) {
+                    console.error('Error loading settings:', e);
+                }
+            },
+
+            saveSettings() {
+                try {
+                    localStorage.setItem('ultraGameHub_settings', JSON.stringify({
+                        theme: this.state.theme,
+                        soundEnabled: this.state.soundEnabled,
+                        vibrationEnabled: this.state.vibrationEnabled
+                    }));
+                } catch (e) {
+                    console.error('Error saving settings:', e);
+                }
+            },
+
+            setupNavigation() {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.navigate(btn.dataset.view);
+                    });
+                });
+
+                document.querySelectorAll('.game-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        this.loadGame(card.dataset.game);
+                    });
+                });
+            },
+
+            setupThemeToggle() {
+                document.getElementById('theme-btn').addEventListener('click', () => {
+                    this.toggleTheme();
+                });
+            },
+
+            setupSettings() {
+                document.getElementById('sound-toggle').addEventListener('change', (e) => {
+                    this.state.soundEnabled = e.target.checked;
+                    this.saveSettings();
+                });
+
+                document.getElementById('vibration-toggle').addEventListener('change', (e) => {
+                    this.state.vibrationEnabled = e.target.checked;
+                    this.saveSettings();
+                });
+            },
+
+            navigate(viewId) {
+                document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+                document.getElementById('view-' + viewId).classList.add('active');
+                
+                document.querySelectorAll('.nav-btn').forEach(el => {
+                    el.classList.toggle('active', el.dataset.view === viewId);
+                });
+
+                this.state.currentView = viewId;
+                if (viewId === 'stats') this.updateStats();
+            },
+
+            loadGame(gameId) {
+                this.state.currentGame = gameId;
+                const container = document.getElementById('game-container');
+                const title = document.getElementById('game-title-display');
+                container.innerHTML = '';
+                
+                if (games[gameId]) {
+                    title.textContent = games[gameId].name;
+                    games[gameId].init(container);
+                    this.navigate('game');
+                    this.state.totalGames++;
+                    this.saveStats();
+                    this.showNotification(`Игра "${games[gameId].name}" загружена`, 'success');
+                } else {
+                    container.innerHTML = '<p>Ошибка загрузки модуля игры</p>';
+                    this.showNotification('Ошибка загрузки игры', 'error');
+                }
+            },
+
+            toggleTheme() {
+                this.state.theme = this.state.theme === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', this.state.theme);
+                document.getElementById('theme-btn').textContent = this.state.theme === 'dark' ? '☀️' : '🌙';
+                this.saveSettings();
+                this.showNotification(`Тема: ${this.state.theme === 'dark' ? 'Тёмная' : 'Светлая'}`, 'success');
+            },
+
+            filterGames() {
+                const categories = { arcade: [], logic: [], action: [] };
+                document.querySelectorAll('.game-card').forEach(card => {
+                    const category = card.dataset.category;
+                    if (categories[category]) {
+                        categories[category].push(card.cloneNode(true));
+                    }
+                });
+
+                ['arcade', 'logic', 'action'].forEach(cat => {
+                    const grid = document.getElementById(cat + '-grid');
+                    if (grid) {
+                        grid.innerHTML = '';
+                        categories[cat].forEach(card => {
+                            card.addEventListener('click', () => {
+                                this.loadGame(card.dataset.game);
+                            });
+                            grid.appendChild(card);
+                        });
+                    }
+                });
+            },
+
+            updateStats() {
+                document.getElementById('total-games').textContent = this.state.totalGames;
+                document.getElementById('total-score').textContent = this.state.totalScore;
+                document.getElementById('best-streak').textContent = this.state.bestStreak;
+                document.getElementById('play-time').textContent = Math.floor(this.state.playTime / 60) + 'м';
+                document.getElementById('score-display').textContent = '🏆 ' + this.state.totalScore;
+
+                const gs = this.state.gameStats;
+                document.getElementById('stat-clicker').textContent = gs.clicker || 0;
+                document.getElementById('stat-guess').textContent = gs.guess || '-';
+                document.getElementById('stat-snake').textContent = gs.snake || 0;
+                document.getElementById('stat-memory').textContent = gs.memory || '-';
+            },
+
+            saveStats() {
+                try {
+                    localStorage.setItem('ultraGameHub_stats', JSON.stringify({
+                        totalGames: this.state.totalGames,
+                        totalScore: this.state.totalScore,
+                        bestStreak: this.state.bestStreak,
+                        gameStats: this.state.gameStats
+                    }));
+                } catch (e) {
+                    console.error('Error saving stats:', e);
+                }
+            },
+
+            loadStats() {
+                try {
+                    const saved = localStorage.getItem('ultraGameHub_stats');
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        this.state.totalGames = parsed.totalGames || 0;
+                        this.state.totalScore = parsed.totalScore || 0;
+                        this.state.bestStreak = parsed.bestStreak || 0;
+                        this.state.gameStats = parsed.gameStats || {};
+                    }
+                } catch (e) {
+                    console.error('Error loading stats:', e);
+                }
+            },
+
+            clearAllData() {
+                if (confirm('Вы уверены? Это удалит всю статистику и сохранения.')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            },
+
+            showNotification(text, type = 'info') {
+                const notif = document.getElementById('notification');
+                const textEl = document.getElementById('notification-text');
+                textEl.textContent = text;
+                notif.className = 'notification ' + type + ' show';
+                setTimeout(() => notif.classList.remove('show'), 3000);
+            },
+
+            showModal(title, body) {
+                document.getElementById('modal-title').textContent = title;
+                document.getElementById('modal-body').textContent = body;
+                document.getElementById('modal-overlay').classList.add('active');
+            },
+
+            closeModal() {
+                document.getElementById('modal-overlay').classList.remove('active');
+            },
+
+            playSound(frequency = 440, duration = 100) {
+                if (!this.state.soundEnabled) return;
+                try {
+                    if (!this.audioContext) {
+                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                    const osc = this.audioContext.createOscillator();
+                    const gain = this.audioContext.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.audioContext.destination);
+                    osc.frequency.value = frequency;
+                    gain.gain.value = 0.1;
+                    osc.start();
+                    setTimeout(() => osc.stop(), duration);
+                } catch (e) {
+                    console.error('Audio error:', e);
+                }
+            },
+
+            vibrate(pattern = 50) {
+                if (this.state.vibrationEnabled && navigator.vibrate) {
+                    navigator.vibrate(pattern);
+                }
+            },
+
+            startPlayTimer() {
+                setInterval(() => {
+                    if (this.state.currentGame) {
+                        this.state.playTime++;
+                        if (this.state.playTime % 60 === 0) {
+                            this.saveStats();
+                        }
+                    }
+                }, 1000);
+            }
+        };
+
+        /**
+         * ==========================================
+         * GAMES MODULE
+         * ==========================================
+         * -[Unverified] Логика игр не тестировалась на всех возможных сценариях ввода
+         */
+        const games = {
+            // ----- CLICKER GAME -----
+            clicker: {
+                name: 'Кибер Кликер',
+                score: 0,
+                clickPower: 1,
+                autoClicker: 0,
+                interval: null,
+
+                init(container) {
+                    this.score = 0;
+                    this.clickPower = 1;
+                    this.autoClicker = 0;
+                    clearInterval(this.interval);
+                    
+                    container.innerHTML = `
+                        <div class="stage-display" id="clicker-score">0</div>
+                        <button class="btn btn-primary clicker-btn" id="clicker-main-btn">
+                            <span>🖱️ КЛИК!</span>
+                        </button>
+                        <div style="margin-top: 30px;">
+                            <h4 style="margin-bottom: 15px;">Улучшения</h4>
+                            <div class="upgrade-item">
+                                <div>
+                                    <strong>Сила клика +1</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">Текущая: ${this.clickPower}</p>
+                                </div>
+                                <button class="btn btn-secondary" onclick="games.clicker.buyPower()">
+                                    💰 10
+                                </button>
+                            </div>
+                            <div class="upgrade-item">
+                                <div>
+                                    <strong>Авто-кликер</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">В секунду: ${this.autoClicker}</p>
+                                </div>
+                                <button class="btn btn-secondary" onclick="games.clicker.buyAuto()">
+                                    💰 50
+                                </button>
+                            </div>
+                        </div>
+                        <div class="stage-controls">
+                            <button class="btn btn-danger" onclick="games.clicker.reset()">Сброс</button>
+                        </div>
+                    `;
+
+                    document.getElementById('clicker-main-btn').addEventListener('click', () => this.click());
+                    
+                    this.interval = setInterval(() => {
+                        if (this.autoClicker > 0) {
+                            this.score += this.autoClicker;
+                            this.updateDisplay();
+                        }
+                    }, 1000);
+                },
+
+                click() {
+                    this.score += this.clickPower;
+                    app.playSound(600, 50);
+                    app.vibrate(30);
+                    this.updateDisplay();
+                    this.saveProgress();
+                },
+
+                buyPower() {
+                    if (this.score >= 10) {
+                        this.score -= 10;
+                        this.clickPower++;
+                        this.updateDisplay();
+                        app.showNotification('Сила клика увеличена!', 'success');
+                        app.playSound(800, 100);
+                    } else {
+                        app.showNotification('Недостаточно очков!', 'error');
+                    }
+                },
+
+                buyAuto() {
+                    if (this.score >= 50) {
+                        this.score -= 50;
+                        this.autoClicker++;
+                        this.updateDisplay();
+                        app.showNotification('Авто-кликер куплен!', 'success');
+                        app.playSound(800, 100);
+                    } else {
+                        app.showNotification('Недостаточно очков!', 'error');
+                    }
+                },
+
+                updateDisplay() {
+                    const el = document.getElementById('clicker-score');
+                    if (el) el.textContent = this.score.toLocaleString();
+                    app.state.totalScore = this.score;
+                    app.updateStats();
+                },
+
+                reset() {
+                    if (confirm('Сбросить весь прогресс?')) {
+                        this.score = 0;
+                        this.clickPower = 1;
+                        this.autoClicker = 0;
+                        this.updateDisplay();
+                        app.showNotification('Прогресс сброшен', 'warning');
+                    }
+                },
+
+                saveProgress() {
+                    app.state.gameStats.clicker = this.score;
+                    if (this.score > (app.state.gameStats.clickerBest || 0)) {
+                        app.state.gameStats.clickerBest = this.score;
+                    }
+                    app.saveStats();
+                }
+            },
+
+            // ----- GUESS NUMBER GAME -----
+            guess: {
+                name: 'Угадай Число',
+                target: 0,
+                attempts: 0,
+                history: [],
+
+                init(container) {
+                    this.target = Math.floor(Math.random() * 100) + 1;
+                    this.attempts = 0;
+                    this.history = [];
+                    
+                    container.innerHTML = `
+                        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 20px;">
+                            Я загадал число от 1 до 100. Попробуйте угадать!
+                        </p>
+                        <div class="stage-display" id="guess-display">?</div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <input type="number" id="guess-input" min="1" max="100" placeholder="1-100">
+                        </div>
+                        <div class="stage-controls">
+                            <button class="btn btn-primary" onclick="games.guess.check()">Проверить</button>
+                            <button class="btn btn-secondary" onclick="games.guess.reset()">Новая игра</button>
+                        </div>
+                        <div id="guess-history" style="margin-top: 20px; text-align: center; color: var(--text-secondary);"></div>
+                    `;
+
+                    document.getElementById('guess-input').addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') this.check();
+                    });
+                    document.getElementById('guess-input').focus();
+                },
+
+                check() {
+                    const input = document.getElementById('guess-input');
+                    const val = parseInt(input.value);
+                    const display = document.getElementById('guess-display');
+                    const history = document.getElementById('guess-history');
+
+                    if (isNaN(val) || val < 1 || val > 100) {
+                        app.showNotification('Введите число от 1 до 100!', 'error');
+                        return;
+                    }
+
+                    this.attempts++;
+                    this.history.push(val);
+                    history.innerHTML = 'Попытки: ' + this.history.join(', ');
+
+                    if (val === this.target) {
+                        display.textContent = '🎉 ' + val;
+                        display.style.color = 'var(--success-color)';
+                        app.playSound(1000, 200);
+                        app.vibrate([50, 50, 50]);
+                        app.showModal('Победа!', `Вы угадали число ${this.target} за ${this.attempts} попыток!`);
+                        app.state.totalScore += Math.max(0, 100 - this.attempts);
+                        app.state.gameStats.guess = Math.min(app.state.gameStats.guess || Infinity, this.attempts);
+                        app.saveStats();
+                        app.updateStats();
+                    } else if (val < this.target) {
+                        display.textContent = '⬆️ Больше';
+                        display.style.color = 'var(--primary-color)';
+                        app.playSound(300, 100);
+                    } else {
+                        display.textContent = '⬇️ Меньше';
+                        display.style.color = 'var(--danger-color)';
+                        app.playSound(200, 100);
+                    }
+
+                    input.value = '';
+                    input.focus();
+                },
+
+                reset() {
+                    this.target = Math.floor(Math.random() * 100) + 1;
+                    this.attempts = 0;
+                    this.history = [];
+                    document.getElementById('guess-display').textContent = '?';
+                    document.getElementById('guess-display').style.color = 'var(--primary-color)';
+                    document.getElementById('guess-input').value = '';
+                    document.getElementById('guess-history').innerHTML = '';
+                    app.showNotification('Новая игра началась!', 'success');
+                }
+            },
+
+            // ----- TIC TAC TOE GAME -----
+            tictactoe: {
+                name: 'Крестики-Нолики',
+                board: [],
+                currentPlayer: 'X',
+                gameActive: false,
+                vsComputer: true,
+
+                init(container) {
+                    this.board = Array(9).fill(null);
+                    this.currentPlayer = 'X';
+                    this.gameActive = true;
+                    
+                    container.innerHTML = `
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <button class="btn btn-secondary" onclick="games.tictactoe.toggleMode()">
+                                ${this.vsComputer ? 'Против компьютера' : '2 Игрока'}
+                            </button>
+                        </div>
+                        <div class="ttt-board" id="ttt-board"></div>
+                        <div class="stage-display" id="ttt-status" style="font-size: 1.5rem;">Ход: X</div>
+                        <div class="stage-controls">
+                            <button class="btn btn-secondary" onclick="games.tictactoe.reset()">Новая игра</button>
+                        </div>
+                    `;
+
+                    this.renderBoard();
+                },
+
+                renderBoard() {
+                    const board = document.getElementById('ttt-board');
+                    board.innerHTML = '';
+                    this.board.forEach((cell, i) => {
+                        const div = document.createElement('div');
+                        div.className = 'ttt-cell' + (cell ? ' ' + cell.toLowerCase() : '');
+                        div.textContent = cell || '';
+                        div.addEventListener('click', () => this.move(i));
+                        board.appendChild(div);
+                    });
+                },
+
+                move(i) {
+                    if (!this.gameActive || this.board[i]) return;
+
+                    this.board[i] = this.currentPlayer;
+                    this.renderBoard();
+
+                    if (this.checkWin()) {
+                        this.gameActive = false;
+                        this.highlightWin();
+                        app.playSound(800, 200);
+                        app.vibrate([50, 50, 50]);
+                        document.getElementById('ttt-status').textContent = `Победа ${this.currentPlayer}!`;
+                        if (this.currentPlayer === 'X') {
+                            app.state.totalScore += 10;
+                            app.saveStats();
+                            app.updateStats();
+                        }
+                        return;
+                    }
+
+                    if (this.board.every(cell => cell)) {
+                        this.gameActive = false;
+                        document.getElementById('ttt-status').textContent = 'Ничья!';
+                        app.showNotification('Ничья!', 'warning');
+                        return;
+                    }
+
+                    this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
+                    document.getElementById('ttt-status').textContent = `Ход: ${this.currentPlayer}`;
+
+                    if (this.vsComputer && this.currentPlayer === 'O' && this.gameActive) {
+                        setTimeout(() => this.computerMove(), 500);
+                    }
+                },
+
+                computerMove() {
+                    const available = this.board.map((v, i) => v === null ? i : null).filter(v => v !== null);
+                    if (available.length > 0) {
+                        const move = available[Math.floor(Math.random() * available.length)];
+                        this.move(move);
+                    }
+                },
+
+                checkWin() {
+                    const wins = [
+                        [0,1,2], [3,4,5], [6,7,8],
+                        [0,3,6], [1,4,7], [2,5,8],
+                        [0,4,8], [2,4,6]
+                    ];
+                    return wins.some(combo => 
+                        this.board[combo[0]] && 
+                        this.board[combo[0]] === this.board[combo[1]] && 
+                        this.board[combo[0]] === this.board[combo[2]]
+                    );
+                },
+
+                highlightWin() {
+                    const wins = [
+                        [0,1,2], [3,4,5], [6,7,8],
+                        [0,3,6], [1,4,7], [2,5,8],
+                        [0,4,8], [2,4,6]
+                    ];
+                    const winCombo = wins.find(combo =>
+                        this.board[combo[0]] &&
+                        this.board[combo[0]] === this.board[combo[1]] &&
+                        this.board[combo[0]] === this.board[combo[2]]
+                    );
+                    if (winCombo) {
+                        const cells = document.querySelectorAll('.ttt-cell');
+                        winCombo.forEach(i => cells[i].classList.add('winner'));
+                    }
+                },
+
+                toggleMode() {
+                    this.vsComputer = !this.vsComputer;
+                    this.reset();
+                },
+
+                reset() {
+                    this.board = Array(9).fill(null);
+                    this.currentPlayer = 'X';
+                    this.gameActive = true;
+                    this.renderBoard();
+                    document.getElementById('ttt-status').textContent = 'Ход: X';
+                    app.showNotification('Новая игра!', 'success');
+                }
+            },
+
+            // ----- MEMORY GAME -----
+            memory: {
+                name: 'Память',
+                cards: [],
+                flipped: [],
+                matched: [],
+                moves: 0,
+                timer: null,
+                startTime: null,
+
+                init(container) {
+                    this.moves = 0;
+                    this.flipped = [];
+                    this.matched = [];
+                    clearInterval(this.timer);
+                    
+                    const icons = ['🍎','🍌','🍇','🍒','🍓','🍑','🥝','🍊'];
+                    this.cards = [...icons, ...icons].sort(() => Math.random() - 0.5);
+                    
+                    container.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <span>Ходы: <strong id="memory-moves">0</strong></span>
+                            <span>Время: <strong id="memory-time">0с</strong></span>
+                        </div>
+                        <div class="memory-board" id="memory-board"></div>
+                        <div class="stage-controls">
+                            <button class="btn btn-secondary" onclick="games.memory.reset()">Новая игра</button>
+                        </div>
+                    `;
+
+                    this.renderBoard();
+                    this.startTimer();
+                },
+
+                renderBoard() {
+                    const board = document.getElementById('memory-board');
+                    board.innerHTML = '';
+                    this.cards.forEach((icon, idx) => {
+                        const card = document.createElement('div');
+                        card.className = 'memory-card' + (this.matched.includes(idx) ? ' matched' : '');
+                        card.dataset.index = idx;
+                        card.dataset.icon = icon;
+                        card.innerHTML = '<span style="transform: rotateY(180deg);">' + icon + '</span>';
+                        card.addEventListener('click', () => this.flip(card));
+                        board.appendChild(card);
+                    });
+                },
+
+                flip(card) {
+                    if (this.flipped.length >= 2 || card.classList.contains('flipped') || this.matched.includes(parseInt(card.dataset.index))) {
+                        return;
+                    }
+
+                    card.classList.add('flipped');
+                    this.flipped.push(card);
+
+                    if (this.flipped.length === 2) {
+                        this.moves++;
+                        document.getElementById('memory-moves').textContent = this.moves;
+                        setTimeout(() => this.checkMatch(), 800);
+                    }
+                },
+
+                checkMatch() {
+                    const [c1, c2] = this.flipped;
+                    if (c1.dataset.icon === c2.dataset.icon) {
+                        this.matched.push(parseInt(c1.dataset.index), parseInt(c2.dataset.index));
+                        c1.classList.add('matched');
+                        c2.classList.add('matched');
+                        app.playSound(700, 150);
+                        
+                        if (this.matched.length === this.cards.length) {
+                            this.endGame();
+                        }
+                    } else {
+                        c1.classList.remove('flipped');
+                        c2.classList.remove('flipped');
+                        app.playSound(300, 100);
+                    }
+                    this.flipped = [];
+                },
+
+                startTimer() {
+                    this.startTime = Date.now();
+                    this.timer = setInterval(() => {
+                        const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                        document.getElementById('memory-time').textContent = elapsed + 'с';
+                    }, 1000);
+                },
+
+                endGame() {
+                    clearInterval(this.timer);
+                    const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                    app.playSound(1000, 300);
+                    app.vibrate([50, 50, 50, 50, 50]);
+                    app.showModal('Победа!', `Вы нашли все пары за ${this.moves} ходов и ${elapsed} секунд!`);
+                    app.state.totalScore += Math.max(0, 100 - this.moves);
+                    app.state.gameStats.memory = elapsed;
+                    app.saveStats();
+                    app.updateStats();
+                },
+
+                reset() {
+                    clearInterval(this.timer);
+                    this.init(document.getElementById('game-container'));
+                }
+            },
+
+            // ----- SNAKE GAME -----
+            snake: {
+                name: 'Змейка',
+                canvas: null,
+                ctx: null,
+                snake: [],
+                food: null,
+                direction: 'right',
+                nextDirection: 'right',
+                score: 0,
+                interval: null,
+                gridSize: 20,
+                tileCount: 20,
+
+                init(container) {
+                    this.snake = [{x: 10, y: 10}];
+                    this.food = this.randomFood();
+                    this.direction = 'right';
+                    this.nextDirection = 'right';
+                    this.score = 0;
+                    clearInterval(this.interval);
+
+                    container.innerHTML = `
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <span>Счёт: <strong id="snake-score">0</strong></span>
+                        </div>
+                        <canvas id="snake-canvas" class="snake-canvas" width="400" height="400"></canvas>
+                        <div class="stage-controls">
+                            <button class="btn btn-primary" onclick="games.snake.start()">Старт</button>
+                            <button class="btn btn-secondary" onclick="games.snake.pause()">Пауза</button>
+                            <button class="btn btn-danger" onclick="games.snake.reset()">Сброс</button>
+                        </div>
+                        <p style="text-align: center; color: var(--text-secondary); margin-top: 15px; font-size: 0.9rem;">
+                            Управление: Стрелки или WASD
+                        </p>
+                    `;
+
+                    this.canvas = document.getElementById('snake-canvas');
+                    this.ctx = this.canvas.getContext('2d');
+                    this.tileCount = Math.floor(this.canvas.width / this.gridSize);
+                    this.draw();
+
+                    document.addEventListener('keydown', (e) => this.handleKey(e));
+                },
+
+                randomFood() {
+                    return {
+                        x: Math.floor(Math.random() * this.tileCount),
+                        y: Math.floor(Math.random() * this.tileCount)
+                    };
+                },
+
+                draw() {
+                    if (!this.ctx) return;
+                    
+                    this.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg-input');
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+                    this.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--success-color');
+                    this.snake.forEach(segment => {
+                        this.ctx.fillRect(
+                            segment.x * this.gridSize,
+                            segment.y * this.gridSize,
+                            this.gridSize - 2,
+                            this.gridSize - 2
+                        );
+                    });
+
+                    this.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--danger-color');
+                    this.ctx.fillRect(
+                        this.food.x * this.gridSize,
+                        this.food.y * this.gridSize,
+                        this.gridSize - 2,
+                        this.gridSize - 2
+                    );
+                },
+
+                start() {
+                    if (this.interval) return;
+                    this.interval = setInterval(() => this.update(), 150);
+                },
+
+                pause() {
+                    clearInterval(this.interval);
+                    this.interval = null;
+                },
+
+                update() {
+                    this.direction = this.nextDirection;
+                    const head = { ...this.snake[0] };
+
+                    switch (this.direction) {
+                        case 'up': head.y--; break;
+                        case 'down': head.y++; break;
+                        case 'left': head.x--; break;
+                        case 'right': head.x++; break;
+                    }
+
+                    if (head.x < 0 || head.x >= this.tileCount || head.y < 0 || head.y >= this.tileCount) {
+                        this.gameOver();
+                        return;
+                    }
+
+                    if (this.snake.some(s => s.x === head.x && s.y === head.y)) {
+                        this.gameOver();
+                        return;
+                    }
+
+                    this.snake.unshift(head);
+
+                    if (head.x === this.food.x && head.y === this.food.y) {
+                        this.score += 10;
+                        this.food = this.randomFood();
+                        app.playSound(600, 100);
+                        document.getElementById('snake-score').textContent = this.score;
+                    } else {
+                        this.snake.pop();
+                    }
+
+                    this.draw();
+                },
+
+                handleKey(e) {
+                    switch (e.key) {
+                        case 'ArrowUp': case 'w': case 'W':
+                            if (this.direction !== 'down') this.nextDirection = 'up'; break;
+                        case 'ArrowDown': case 's': case 'S':
+                            if (this.direction !== 'up') this.nextDirection = 'down'; break;
+                        case 'ArrowLeft': case 'a': case 'A':
+                            if (this.direction !== 'right') this.nextDirection = 'left'; break;
+                        case 'ArrowRight': case 'd': case 'D':
+                            if (this.direction !== 'left') this.nextDirection = 'right'; break;
+                    }
+                },
+
+                gameOver() {
+                    this.pause();
+                    app.playSound(200, 300);
+                    app.vibrate([100, 50, 100, 50, 100]);
+                    app.showModal('Игра окончена!', `Ваш счёт: ${this.score}`);
+                    app.state.totalScore += this.score;
+                    app.state.gameStats.snake = Math.max(app.state.gameStats.snake || 0, this.snake.length);
+                    app.saveStats();
+                    app.updateStats();
+                },
+
+                reset() {
+                    this.pause();
+                    this.init(document.getElementById('game-container'));
+                }
+            },
+
+            // ----- REACTION GAME -----
+            reaction: {
+                name: 'Реакция',
+                state: 'waiting',
+                timeout: null,
+                startTime: 0,
+
+                init(container) {
+                    this.state = 'waiting';
+                    clearTimeout(this.timeout);
+
+                    container.innerHTML = `
+                        <div class="stage-display" id="reaction-display" style="background: var(--danger-color); color: white;">
+                            Ждите зелёный...
+                        </div>
+                        <div class="stage-controls">
+                            <button class="btn btn-primary" onclick="games.reaction.start()">Начать</button>
+                            <button class="btn btn-secondary" onclick="games.reaction.reset()">Сброс</button>
+                        </div>
+                    `;
+                },
+
+                start() {
+                    if (this.state === 'running') return;
+                    this.state = 'waiting';
+                    const display = document.getElementById('reaction-display');
+                    display.style.background = 'var(--danger-color)';
+                    display.textContent = 'Ждите зелёный...';
+
+                    const delay = 2000 + Math.random() * 3000;
+                    this.timeout = setTimeout(() => {
+                        this.state = 'ready';
+                        display.style.background = 'var(--success-color)';
+                        display.textContent = 'ЖМИ!';
+                        this.startTime = Date.now();
+                        app.playSound(800, 100);
+                    }, delay);
+                },
+
+                reset() {
+                    clearTimeout(this.timeout);
+                    this.state = 'waiting';
+                    const display = document.getElementById('reaction-display');
+                    if (display) {
+                        display.style.background = 'var(--danger-color)';
+                        display.textContent = 'Нажмите Начать';
+                    }
+                }
+            },
+
+            // ----- MATH GAME -----
+            math: {
+                name: 'Математика',
+                problem: null,
+                answer: 0,
+                score: 0,
+                timeLeft: 30,
+                timer: null,
+
+                init(container) {
+                    this.score = 0;
+                    this.timeLeft = 30;
+                    this.generateProblem();
+                    clearInterval(this.timer);
+
+                    container.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <span>Счёт: <strong id="math-score">0</strong></span>
+                            <span>Время: <strong id="math-time">30</strong>с</span>
+                        </div>
+                        <div class="stage-display" id="math-problem">2 + 2 = ?</div>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <input type="number" id="math-input" placeholder="Ответ">
+                        </div>
+                        <div class="stage-controls">
+                            <button class="btn btn-primary" onclick="games.math.check()">Ответ</button>
+                            <button class="btn btn-secondary" onclick="games.math.reset()">Новая игра</button>
+                        </div>
+                    `;
+
+                    this.startTimer();
+                    document.getElementById('math-input').focus();
+                },
+
+                generateProblem() {
+                    const ops = ['+', '-', '*'];
+                    const op = ops[Math.floor(Math.random() * ops.length)];
+                    let a = Math.floor(Math.random() * 20) + 1;
+                    let b = Math.floor(Math.random() * 20) + 1;
+
+                    if (op === '-') {
+                        if (a < b) [a, b] = [b, a];
+                    }
+
+                    this.problem = `${a} ${op} ${b}`;
+                    this.answer = eval(this.problem);
+                    document.getElementById('math-problem').textContent = this.problem + ' = ?';
+                },
+
+                check() {
+                    const input = document.getElementById('math-input');
+                    const val = parseInt(input.value);
+
+                    if (val === this.answer) {
+                        this.score += 10;
+                        document.getElementById('math-score').textContent = this.score;
+                        app.playSound(700, 100);
+                        app.showNotification('Правильно!', 'success');
+                    } else {
+                        this.timeLeft -= 5;
+                        app.playSound(300, 100);
+                        app.showNotification('Неправильно! -5с', 'error');
+                    }
+
+                    input.value = '';
+                    this.generateProblem();
+                    input.focus();
+                },
+
+                startTimer() {
+                    this.timer = setInterval(() => {
+                        this.timeLeft--;
+                        document.getElementById('math-time').textContent = this.timeLeft;
+                        if (this.timeLeft <= 0) {
+                            this.endGame();
+                        }
+                    }, 1000);
+                },
+
+                endGame() {
+                    clearInterval(this.timer);
+                    app.playSound(200, 300);
+                    app.showModal('Время вышло!', `Ваш счёт: ${this.score}`);
+                    app.state.totalScore += this.score;
+                    app.saveStats();
+                    app.updateStats();
+                },
+
+                reset() {
+                    clearInterval(this.timer);
+                    this.init(document.getElementById('game-container'));
+                }
+            },
+
+            // ----- WHACK GAME -----
+            whack: {
+                name: 'Ударь Крота',
+                score: 0,
+                timeLeft: 30,
+                activeHole: null,
+                timer: null,
+                moleTimer: null,
+
+                init(container) {
+                    this.score = 0;
+                    this.timeLeft = 30;
+                    this.activeHole = null;
+                    clearInterval(this.timer);
+                    clearInterval(this.moleTimer);
+
+                    container.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <span>Счёт: <strong id="whack-score">0</strong></span>
+                            <span>Время: <strong id="whack-time">30</strong>с</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 350px; margin: 0 auto;">
+                            ${Array(9).fill(0).map((_, i) => 
+                                `<div class="ttt-cell" data-hole="${i}" onclick="games.whack.hit(${i})" style="cursor: pointer;">🕳️</div>`
+                            ).join('')}
+                        </div>
+                        <div class="stage-controls">
+                            <button class="btn btn-primary" onclick="games.whack.start()">Старт</button>
+                            <button class="btn btn-secondary" onclick="games.whack.reset()">Сброс</button>
+                        </div>
+                    `;
+                },
+
+                start() {
+                    if (this.timer) return;
+                    this.startTimer();
+                    this.showMole();
+                },
+
+                showMole() {
+                    const holes = document.querySelectorAll('[data-hole]');
+                    holes.forEach(h => h.textContent = '🕳️');
+                    
+                    const hole = Math.floor(Math.random() * 9);
+                    this.activeHole = hole;
+                    holes[hole].textContent = '🦫';
+                    
+                    this.moleTimer = setTimeout(() => {
+                        if (holes[hole]) holes[hole].textContent = '🕳️';
+                        this.activeHole = null;
+                        this.showMole();
+                    }, 800 + Math.random() * 700);
+                },
+
+                hit(hole) {
+                    if (hole === this.activeHole) {
+                        this.score += 10;
+                        document.getElementById('whack-score').textContent = this.score;
+                        app.playSound(600, 100);
+                        app.vibrate(50);
+                        const holes = document.querySelectorAll('[data-hole]');
+                        holes[hole].textContent = '💥';
+                        setTimeout(() => {
+                            if (this.timer) holes[hole].textContent = '🕳️';
+                        }, 200);
+                    }
+                },
+
+                startTimer() {
+                    this.timer = setInterval(() => {
+                        this.timeLeft--;
+                        document.getElementById('whack-time').textContent = this.timeLeft;
+                        if (this.timeLeft <= 0) {
+                            this.endGame();
+                        }
+                    }, 1000);
+                },
+
+                endGame() {
+                    clearInterval(this.timer);
+                    clearInterval(this.moleTimer);
+                    this.timer = null;
+                    this.moleTimer = null;
+                    app.playSound(200, 300);
+                    app.showModal('Время вышло!', `Ваш счёт: ${this.score}`);
+                    app.state.totalScore += this.score;
+                    app.saveStats();
+                    app.updateStats();
+                },
+
+                reset() {
+                    clearInterval(this.timer);
+                    clearInterval(this.moleTimer);
+                    this.timer = null;
+                    this.moleTimer = null;
+                    this.init(document.getElementById('game-container'));
+                }
+            }
+        };
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        // -[Unverified] Инициализация может быть заблокирована настройками безопасности браузера
+        window.addEventListener('DOMContentLoaded', () => {
+            app.loadStats();
+            app.init();
+        });
+
+        // Save before unload
+        window.addEventListener('beforeunload', () => {
+            app.saveStats();
+            app.saveSettings();
+        });
+    </script>
+</body>
+</html>
